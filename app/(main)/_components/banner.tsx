@@ -8,20 +8,31 @@ import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
+import { useEdgeStore } from "@/lib/edgestore";
 
 interface BannerProps {
   documentId: Id<"documents">;
+  coverImageUrl?: string;
 };
 
 export const Banner = ({
-  documentId
+  documentId,
+  coverImageUrl
 }: BannerProps) => {
   const router = useRouter();
 
   const remove = useMutation(api.documents.remove);
   const restore = useMutation(api.documents.restore);
 
-  const onRemove = () => {
+  const { edgestore } = useEdgeStore();
+
+  const onRemove = async () => {
+    
+    if (coverImageUrl) {
+			await edgestore.publicFiles.delete({
+				url: coverImageUrl
+			});
+		}
     const promise = remove({ id: documentId });
 
     toast.promise(promise, {
