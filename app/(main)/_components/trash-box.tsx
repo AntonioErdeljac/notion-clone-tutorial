@@ -7,12 +7,14 @@ import { Search, Trash, Undo } from "lucide-react";
 import { toast } from "sonner";
 
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
+import { Doc } from "@/convex/_generated/dataModel";
+import { useEdgeStore } from "@/lib/edgestore";
 import { Spinner } from "@/components/spinner";
 import { Input } from "@/components/ui/input";
 import { ConfirmModal } from "@/components/modals/confirm-modal";
 
 export const TrashBox = () => {
+  const {edgestore} = useEdgeStore();
   const router = useRouter();
   const params = useParams();
   const documents = useQuery(api.documents.getTrash);
@@ -31,10 +33,10 @@ export const TrashBox = () => {
 
   const onRestore = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    documentId: Id<"documents">,
+    document: Doc<"documents">,
   ) => {
     event.stopPropagation();
-    const promise = restore({ id: documentId });
+    const promise = restore({ id: document._id });
 
     toast.promise(promise, {
       loading: "Restoring note...",
@@ -43,10 +45,16 @@ export const TrashBox = () => {
     });
   };
 
-  const onRemove = (
-    documentId: Id<"documents">,
+  const onRemove = async (
+    document: Doc<"documents">,
   ) => {
-    const promise = remove({ id: documentId });
+    if (document.coverImage) {
+      const url = document.coverImage;
+
+      await edgestore.publicFiles.delete({ url });
+    }
+
+    const promise = remove({ id: document._id });
 
     toast.promise(promise, {
       loading: "Deleting note...",
@@ -54,7 +62,7 @@ export const TrashBox = () => {
       error:" Failed to delete note."
     });
 
-    if (params.documentId === documentId) {
+    if (params.documentId === document._id) {
       router.push("/documents");
     }
   };
@@ -94,13 +102,13 @@ export const TrashBox = () => {
             </span>
             <div className="flex items-center">
               <div
-                onClick={(e) => onRestore(e, document._id)}
+                onClick={(e) => onRestore(e, document)}
                 role="button"
                 className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600"
               >
                 <Undo className="h-4 w-4 text-muted-foreground" />
               </div>
-              <ConfirmModal onConfirm={() => onRemove(document._id)}>
+              <ConfirmModal onConfirm={() => onRemove(document)}>
                 <div
                   role="button"
                   className="rounded-sm p-2 hover:bg-neutral-200 dark:hover:bg-neutral-600"
