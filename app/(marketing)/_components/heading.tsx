@@ -1,27 +1,27 @@
 "use client";
 
+import { SignInButton } from "@clerk/clerk-react";
 import { useConvexAuth } from "convex/react";
 import { ArrowRight } from "lucide-react";
-import { SignInButton } from "@clerk/clerk-react";
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/spinner";
+import { Button } from "@/components/ui/button";
 
 export const Heading = () => {
   const { isAuthenticated, isLoading } = useConvexAuth();
 
   return (
     <div className="max-w-3xl space-y-4">
-      <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold">
+      <h1 className="text-3xl font-bold sm:text-5xl md:text-6xl">
         Your Ideas, Documents, & Plans. Unified. Welcome to <span className="underline">Jotion</span>
       </h1>
-      <h3 className="text-base sm:text-xl md:text-2xl font-medium">
+      <h3 className="text-base font-medium sm:text-xl md:text-2xl">
         Jotion is the connected workspace where <br />
         better, faster work happens.
       </h3>
       {isLoading && (
-        <div className="w-full flex items-center justify-center">
+        <div className="flex w-full items-center justify-center">
           <Spinner size="lg" />
         </div>
       )}
@@ -29,7 +29,7 @@ export const Heading = () => {
         <Button asChild>
           <Link href="/documents">
             Enter Jotion
-            <ArrowRight className="h-4 w-4 ml-2" />
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </Button>
       )}
@@ -37,10 +37,10 @@ export const Heading = () => {
         <SignInButton mode="modal">
           <Button>
             Get Jotion free
-            <ArrowRight className="h-4 w-4 ml-2" />
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </SignInButton>
       )}
     </div>
-  )
-}
+  );
+};
