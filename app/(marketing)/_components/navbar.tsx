@@ -1,3 +1,4 @@
+// Path+Filename: app\(marketing)\_components\navbar.tsx
 "use client";
 
 import { useConvexAuth } from "convex/react";

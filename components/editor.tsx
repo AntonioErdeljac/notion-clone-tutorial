@@ -1,3 +1,4 @@
+// Path+Filename: components\editor.tsx
 "use client";
 
 import { useTheme } from "next-themes";

@@ -1,3 +1,4 @@
+// Path+Filename: components\single-image-dropzone.tsx
 'use client';
 
 import { UploadCloudIcon, X } from 'lucide-react';

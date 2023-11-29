@@ -1,3 +1,4 @@
+// Path+Filename: components\providers\modal-provider.tsx
 "use client";
 
 import { useEffect, useState } from "react";

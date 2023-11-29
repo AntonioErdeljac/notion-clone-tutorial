@@ -1,3 +1,4 @@
+// Path+Filename: app\(marketing)\layout.tsx
 import { Navbar } from "./_components/navbar";
 
 const MarketingLayout = ({

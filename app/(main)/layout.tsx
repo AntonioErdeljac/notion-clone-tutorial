@@ -1,3 +1,4 @@
+// Path+Filename: app\(main)\layout.tsx
 "use client";
 
 import { useConvexAuth } from "convex/react";

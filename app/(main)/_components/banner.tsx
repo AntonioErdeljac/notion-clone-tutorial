@@ -1,3 +1,4 @@
+// Path+Filename: app\(main)\_components\banner.tsx
 "use client";
 
 import { useRouter } from "next/navigation";

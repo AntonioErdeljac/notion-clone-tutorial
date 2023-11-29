@@ -1,3 +1,4 @@
+// Path+Filename: components\modals\cover-image-modal.tsx
 "use client";
 
 import { useState } from "react";

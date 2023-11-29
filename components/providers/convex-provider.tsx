@@ -1,3 +1,4 @@
+// Path+Filename: components\providers\convex-provider.tsx
 "use client";
 
 import { ReactNode } from "react";

@@ -1,7 +1,8 @@
+// Path+Filename: convex\auth.config.js
 export default {
   providers: [
     {
-      domain: "https://actual-glider-21.clerk.accounts.dev",
+      domain: "https://liked-hagfish-56.clerk.accounts.dev",
       applicationID: "convex",
     }
   ]

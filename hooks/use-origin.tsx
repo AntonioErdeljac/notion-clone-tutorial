@@ -1,3 +1,4 @@
+// Path+Filename: hooks\use-origin.tsx
 import { useEffect, useState } from "react";
 
 export const useOrigin = () => {

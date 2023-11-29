@@ -1,3 +1,4 @@
+// Path+Filename: hooks\use-search.tsx
 import { create } from "zustand";
 
 type SearchStore = {

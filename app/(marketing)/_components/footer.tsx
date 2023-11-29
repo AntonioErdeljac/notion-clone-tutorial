@@ -1,3 +1,4 @@
+// Path+Filename: app\(marketing)\_components\footer.tsx
 import { Button } from "@/components/ui/button"
 
 import { Logo } from "./logo"

@@ -1,3 +1,4 @@
+// Path+Filename: app\(marketing)\_components\heroes.tsx
 import Image from "next/image";
 
 export const Heroes = () => {

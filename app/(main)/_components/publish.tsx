@@ -1,3 +1,4 @@
+// Path+Filename: app\(main)\_components\publish.tsx
 "use client";
 
 import { useState } from "react";

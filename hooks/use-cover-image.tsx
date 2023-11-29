@@ -1,3 +1,4 @@
+// Path+Filename: hooks\use-cover-image.tsx
 import { create } from "zustand";
 
 type CoverImageStore = {

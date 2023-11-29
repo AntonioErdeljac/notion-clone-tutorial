@@ -1,3 +1,4 @@
+// Path+Filename: lib\edgestore.ts
 'use client';
  
 import { type EdgeStoreRouter } from '../app/api/edgestore/[...edgestore]/route';

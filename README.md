@@ -1,3 +1,4 @@
+<!-- Path+Filename: README.md -->
 # Fullstack Notion Clone: Next.js 13, React, Convex, Tailwind | Full Course 2023
 
 ![Copy of Copy of Copy of Fullstack Twitter Clone (6)](https://github.com/AntonioErdeljac/notion-clone-tutorial/assets/23248726/66bcfca3-93bf-4aa4-950d-f98c020e1156)
@@ -70,3 +71,9 @@ npx convex dev
 ```shell
 npm run dev
 ```
+
+## Document Collaboration
+- Added sharedWith and cursorPositions in schema
+- Created sharedWith function in convex documents.ts
+- Created share button with tabs for share and publish tabs
+- Publish functionality intact

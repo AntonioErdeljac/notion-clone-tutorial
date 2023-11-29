@@ -1,3 +1,4 @@
+// Path+Filename: app\(marketing)\_components\logo.tsx
 import Image from "next/image";
 import { Poppins } from "next/font/google";
 

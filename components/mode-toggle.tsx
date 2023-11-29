@@ -1,3 +1,4 @@
+// Path+Filename: components\mode-toggle.tsx
 "use client"
 
 import * as React from "react"

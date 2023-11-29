@@ -1,3 +1,4 @@
+// Path+Filename: components\icon-picker.tsx
 "use client";
 
 import EmojiPicker, { Theme } from "emoji-picker-react";

@@ -1,3 +1,4 @@
+// Path+Filename: app\(main)\(routes)\documents\page.tsx
 "use client";
 
 import Image from "next/image";

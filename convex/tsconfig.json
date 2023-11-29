@@ -1,3 +1,4 @@
+/* Path+Filename: convex\tsconfig.json */
 {
   /* This TypeScript project config describes the environment that
    * Convex functions run in and is used to typecheck them.

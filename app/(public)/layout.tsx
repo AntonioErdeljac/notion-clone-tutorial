@@ -1,3 +1,4 @@
+// Path+Filename: app\(public)\layout.tsx
 const PublicLayout = ({
   children
 }: {

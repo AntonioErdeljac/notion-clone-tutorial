@@ -1,3 +1,4 @@
+// Path+Filename: hooks\use-settings.tsx
 import { create } from "zustand";
 
 type SettingsStore = {

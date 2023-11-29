@@ -1,3 +1,4 @@
+// Path+Filename: app\(main)\(routes)\documents\[documentId]\page.tsx
 "use client";
 
 import { useMutation, useQuery } from "convex/react";

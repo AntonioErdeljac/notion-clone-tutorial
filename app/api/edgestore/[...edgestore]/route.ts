@@ -1,3 +1,4 @@
+// Path+Filename: app\api\edgestore\[...edgestore]\route.ts
 import { initEdgeStore } from '@edgestore/server';
 import { createEdgeStoreNextHandler } from '@edgestore/server/adapters/next/app';
  

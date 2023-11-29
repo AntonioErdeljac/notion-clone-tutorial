@@ -1,3 +1,4 @@
+// Path+Filename: components\cover.tsx
 "use client";
 
 import Image from "next/image";

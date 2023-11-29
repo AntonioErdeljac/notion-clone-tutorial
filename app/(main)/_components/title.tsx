@@ -1,3 +1,4 @@
+// Path+Filename: app\(main)\_components\title.tsx
 "use client";
 
 import { useRef, useState } from "react";
