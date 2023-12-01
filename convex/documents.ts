@@ -366,38 +366,3 @@ export const removeCoverImage = mutation({
     return document;
   }
 });
-
-export const shareDocument = mutation({
-  args: { id: v.id("documents"), shareWithUserId: v.string() },
-  handler: async (ctx, args) => {
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) {
-      throw new Error("Unauthenticated");
-    }
-    const userId = identity.subject;
-    const existingDocument = await ctx.db.get(args.id);
-
-    if (!existingDocument) {
-      throw new Error("Not found");
-    }
-
-    if (existingDocument.userId !== userId) {
-      throw new Error("Unauthorized");
-    }
-
-    const index = existingDocument.sharedWith?.indexOf(args.shareWithUserId);
-
-    if (index && index > -1) {
-      // User ID is in the array, so remove it.
-      existingDocument.sharedWith?.splice(index, 1);
-    } else {
-      // User ID is not in the array, so add it.
-      existingDocument.sharedWith?.push(args.shareWithUserId);
-    }
-
-    // Use db.patch to update the sharedWith field of the document.
-    const document = await ctx.db.patch(args.id, { sharedWith: existingDocument.sharedWith });
-
-    return document;
-  }
-})

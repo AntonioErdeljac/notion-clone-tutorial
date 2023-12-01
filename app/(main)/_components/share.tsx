@@ -2,9 +2,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { useMutation } from "convex/react";
+import { useMutation, useQuery } from "convex/react";
 import { toast } from "sonner";
-import { Check, Copy, Globe } from "lucide-react";
+import { Check, Copy, Globe, Share as ShareIcon } from "lucide-react";
 
 import { Doc } from "@/convex/_generated/dataModel";
 import {
@@ -22,6 +22,8 @@ import { Separator } from "@/components/ui/separator"
 interface ShareProps {
     initialData: Doc<"documents">
 };
+type User = Doc<"users">;
+
 
 export const Share = ({
     initialData
@@ -32,17 +34,19 @@ export const Share = ({
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSharing, setIsSharing] = useState(false);
     const [email, setEmail] = useState("")
+    const [sharedUsers, setSharedUsers] = useState<User[]>([])
     const url = `${origin}/preview/${initialData._id}`;
-
-    // const filteredUsers = users.filter(user =>
-    //     user.emailAddresses.some(email => email.emailAddress.includes(email))
-    //   );
+    const users = useQuery(api.users.list, { email, id: initialData._id }) ?? [];
 
     const onChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         setEmail(event.target.value);
-        console.log(email)
+        if (users.length > 0) {
+            setSharedUsers(users)
+        } else {
+            setSharedUsers([])
+        }
     };
     const onShare = () => {
         setIsSharing(true);
@@ -118,12 +122,23 @@ export const Share = ({
                             // className="h-7 px-2 focus-visible:ring-transparent"
 
                             />
-                            <Button
-                                onClick={onShare}
-                                disabled={isSharing}
-                            >
-                                Share
-                            </Button>
+                        </div>
+                        <div className="flex items-center mt-4">
+                            {sharedUsers.map((user) => (<>
+                                <div className="flex-grow mx-4">
+                                    {user.email}
+                                </div>
+                                <Button
+                                    onClick={onShare}
+                                    disabled={isSharing}
+                                    className="h-6 w-6 mr-4 p-0"
+                                >
+                                    <ShareIcon className="h-4 w-4" />
+                                </Button>
+                            </>
+                            ))}
+                        </div>
+                        <div className="flex flex-col mt-4">
                         </div>
                     </TabsContent>
                     <TabsContent value="publish">
