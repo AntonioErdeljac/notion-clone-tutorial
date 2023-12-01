@@ -10,11 +10,13 @@ import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/spinner";
 import { cn } from "@/lib/utils";
-
+import useStoreUserEffect from "@/hooks/useStoreUserEffect";
 import { Logo } from "./logo";
 
 export const Navbar = () => {
-  const { isAuthenticated, isLoading } = useConvexAuth();
+  // const { isAuthenticated, isLoading } = useConvexAuth();
+  const { userId, isAuthenticated, isLoading } = useStoreUserEffect();
+
   const scrolled = useScrollTop();
 
   return (
@@ -40,7 +42,8 @@ export const Navbar = () => {
               </Button>
             </SignInButton>
           </>
-        )}
+        )
+        }
         {isAuthenticated && !isLoading && (
           <>
             <Button variant="ghost" size="sm" asChild>

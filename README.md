@@ -75,5 +75,14 @@ npm run dev
 ## Document Collaboration
 - Added sharedWith and cursorPositions in schema
 - Created sharedWith function in convex documents.ts
-- Created share button with tabs for share and publish tabs
+- Created share button with tabs for share and publish tabs in a new file share.tsx in components directory
 - Publish functionality intact
+- Corrected the implementation of cleark auth with convex.dev as it was not as per the implementation recommended by convex
+  - list of users was not being stored in convex
+  - users table added to schema with index of emails and tokenIdentifiers
+  - created a user.ts file in convex folder that contains endpoint store that stores the user details in convex if not already present. This function is copied from https://docs.convex.dev/auth/database-auth, and no change made
+  - created a useStoreUserEffects.ts file in hooks folder that contains the useStoreUserEffects hook from https://docs.convex.dev/auth/database-auth
+  - Change made to the above hook as now instead of only returning userId, it also returns isLoading and isAuthenticated.
+  - in navbar.tsx file instead of getting isLoading and isAuthenticated from useConvexAuth() now it is destructured from useStoreUserEffects()
+  - All functionality is exactly the same and nothing is changed in workflow except for now the app stores users in users table
+  - This step was necessary for implementing the collaboration functionality

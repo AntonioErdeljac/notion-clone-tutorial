@@ -1,7 +1,7 @@
 // Path+Filename: app\(main)\_components\share.tsx
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { toast } from "sonner";
 import { Check, Copy, Globe } from "lucide-react";
@@ -16,6 +16,8 @@ import { useOrigin } from "@/hooks/use-origin";
 import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator"
 
 interface ShareProps {
     initialData: Doc<"documents">
@@ -26,20 +28,30 @@ export const Share = ({
 }: ShareProps) => {
     const origin = useOrigin();
     const update = useMutation(api.documents.update);
-
     const [copied, setCopied] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-
+    const [isSharing, setIsSharing] = useState(false);
+    const [email, setEmail] = useState("")
     const url = `${origin}/preview/${initialData._id}`;
 
+    // const filteredUsers = users.filter(user =>
+    //     user.emailAddresses.some(email => email.emailAddress.includes(email))
+    //   );
+
+    const onChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setEmail(event.target.value);
+        console.log(email)
+    };
     const onShare = () => {
-        setIsSubmitting(true);
+        setIsSharing(true);
 
         const promise = update({
             id: initialData._id,
             isPublished: true,
         })
-            .finally(() => setIsSubmitting(false));
+            .finally(() => setIsSharing(false));
 
         toast.promise(promise, {
             loading: "Publishing...",
@@ -91,13 +103,31 @@ export const Share = ({
                 alignOffset={8}
                 forceMount
             >
-                <Tabs defaultValue="account" className="w-[400px]">
-                    <TabsList>
-                        <TabsTrigger value="share">Share</TabsTrigger>
-                        <TabsTrigger value="publish">Publish</TabsTrigger>
+                <Tabs defaultValue="share" className="w-[400px]">
+                    <TabsList className="w-full flex justify-between  items-center text-center">
+                        <TabsTrigger value="share" className="text-center w-full mx-2">Share</TabsTrigger>
+                        <TabsTrigger value="publish" className="text-center w-full mx-2">Publish</TabsTrigger>
                     </TabsList>
-                    <TabsContent value="share">Make changes to your account here.</TabsContent>
+                    <TabsContent value="share">
+                        <Separator className="my-4" />
+                        <div className="flex items-center">
+                            <Input
+                                className="flex-grow mr-4"
+                                onChange={onChange}
+                                value={email}
+                            // className="h-7 px-2 focus-visible:ring-transparent"
+
+                            />
+                            <Button
+                                onClick={onShare}
+                                disabled={isSharing}
+                            >
+                                Share
+                            </Button>
+                        </div>
+                    </TabsContent>
                     <TabsContent value="publish">
+                        <Separator className="my-4" />
                         {initialData.isPublished ? (
                             <div className="space-y-4">
                                 <div className="flex items-center gap-x-2">
