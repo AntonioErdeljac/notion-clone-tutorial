@@ -18,12 +18,12 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator"
+import UserProfileCard from "@/components/userProfileCard";
 
 interface ShareProps {
     initialData: Doc<"documents">
 };
 type User = Doc<"users">;
-
 
 export const Share = ({
     initialData
@@ -32,10 +32,10 @@ export const Share = ({
     const update = useMutation(api.documents.update);
     const [copied, setCopied] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [isSharing, setIsSharing] = useState(false);
     const [email, setEmail] = useState("")
     const [sharedUsers, setSharedUsers] = useState<User[]>([])
     const url = `${origin}/preview/${initialData._id}`;
+    const [isSharing, setIsSharing] = useState(false);
     const users = useQuery(api.users.list, { email, id: initialData._id }) ?? [];
 
     const onChange = (
@@ -48,14 +48,15 @@ export const Share = ({
             setSharedUsers([])
         }
     };
-    const onShare = () => {
-        setIsSharing(true);
+
+    const onPublish = () => {
+        setIsSubmitting(true);
 
         const promise = update({
             id: initialData._id,
             isPublished: true,
         })
-            .finally(() => setIsSharing(false));
+            .finally(() => setIsSubmitting(false));
 
         toast.promise(promise, {
             loading: "Publishing...",
@@ -102,12 +103,12 @@ export const Share = ({
                 </Button>
             </PopoverTrigger>
             <PopoverContent
-                className="w-90"
+                className="w-80"
                 align="end"
                 alignOffset={8}
                 forceMount
             >
-                <Tabs defaultValue="share" className="w-[400px]">
+                <Tabs defaultValue="share" className="w-full">
                     <TabsList className="w-full flex justify-between  items-center text-center">
                         <TabsTrigger value="share" className="text-center w-full mx-2">Share</TabsTrigger>
                         <TabsTrigger value="publish" className="text-center w-full mx-2">Publish</TabsTrigger>
@@ -123,18 +124,9 @@ export const Share = ({
 
                             />
                         </div>
-                        <div className="flex items-center mt-4">
+                        <div className="flex flex-col items-center mt-4">
                             {sharedUsers.map((user) => (<>
-                                <div className="flex-grow mx-4">
-                                    {user.email}
-                                </div>
-                                <Button
-                                    onClick={onShare}
-                                    disabled={isSharing}
-                                    className="h-6 w-6 mr-4 p-0"
-                                >
-                                    <ShareIcon className="h-4 w-4" />
-                                </Button>
+                                <UserProfileCard user={user} docId={initialData._id} />
                             </>
                             ))}
                         </div>
@@ -191,11 +183,11 @@ export const Share = ({
                                 </span>
                                 <Button
                                     disabled={isSubmitting}
-                                    onClick={onShare}
+                                    onClick={onPublish}
                                     className="w-full text-xs"
                                     size="sm"
                                 >
-                                    Share
+                                    Publish
                                 </Button>
                             </div>
                         )}

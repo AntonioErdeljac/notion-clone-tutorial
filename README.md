@@ -77,7 +77,7 @@ npm run dev
 - Created sharedWith function in convex documents.ts
 - Created share button with tabs for share and publish tabs in a new file share.tsx in components directory
 - Publish functionality intact
-- Corrected the implementation of cleark auth with convex.dev as it was not as per the implementation recommended by convex
+- Corrected the implementation of clerk auth with convex.dev as it was not as per the implementation recommended by convex
   - list of users was not being stored in convex
   - users table added to schema with index of emails and tokenIdentifiers
   - created a user.ts file in convex folder that contains endpoint store that stores the user details in convex if not already present. This function is copied from https://docs.convex.dev/auth/database-auth, and no change made
@@ -86,3 +86,7 @@ npm run dev
   - in navbar.tsx file instead of getting isLoading and isAuthenticated from useConvexAuth() now it is destructured from useStoreUserEffects()
   - All functionality is exactly the same and nothing is changed in workflow except for now the app stores users in users table
   - This step was necessary for implementing the collaboration functionality
+- Input for searching added in share tab that searches for users based on their emails
+- UserProfileCard Component created that displays profile image, name and email and a button to share
+- Share unshare functionality added in one function
+- searching in the input field renders list of matching users in PopoverContent area in the area below.

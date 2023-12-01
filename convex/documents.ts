@@ -104,6 +104,7 @@ export const create = mutation({
       userId,
       isArchived: false,
       isPublished: false,
+      sharedWith: [],
     });
 
     return document;

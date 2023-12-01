@@ -17,6 +17,7 @@ export const store = mutation({
     args: {},
     handler: async (ctx) => {
         const identity = await ctx.auth.getUserIdentity();
+        console.log(identity)
         if (!identity) {
             throw new Error("Called storeUser without authentication present");
         }
@@ -39,7 +40,8 @@ export const store = mutation({
         return await ctx.db.insert("users", {
             name: identity.name!,
             email: identity.email!,
-            tokenIdentifier: identity.tokenIdentifier,
+            tokenIdentifier: identity.tokenIdentifier!,
+            picture: identity.pictureUrl!,
         });
     },
 });
@@ -52,7 +54,6 @@ export const list = query({
         if (!identity) {
             throw new Error("Unauthenticated");
         }
-        console.log(args.id)
         const userId = identity.subject;
         const existingDocument = await ctx.db.get(args.id);
 
@@ -72,13 +73,20 @@ export const list = query({
 });
 
 export const shareDocument = mutation({
-    args: { id: v.id("documents"), shareWithUserId: v.string() },
+    args: {
+        id: v.id("documents"),
+        shareWithUserId: v.id("users")
+    },
     handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();
+        let result
+
         if (!identity) {
             throw new Error("Unauthenticated");
         }
+
         const userId = identity.subject;
+
         const existingDocument = await ctx.db.get(args.id);
 
         if (!existingDocument) {
@@ -89,20 +97,24 @@ export const shareDocument = mutation({
             throw new Error("Unauthorized");
         }
 
-        const index = existingDocument.sharedWith?.indexOf(args.shareWithUserId);
-
-        if (index && index > -1) {
-            // User ID is in the array, so remove it.
-            existingDocument.sharedWith?.splice(index, 1);
+        if (userId != args.shareWithUserId) {
+            const index = existingDocument.sharedWith?.indexOf(args.shareWithUserId);
+            console.log(typeof (index))
+            if (typeof index !== 'undefined' && index > -1) {
+                // User ID is in the array, so remove it.
+                existingDocument.sharedWith?.splice(index, 1);
+                result = "Document unshared";
+            } else {
+                // User ID is not in the array, so add it.
+                existingDocument.sharedWith?.push(args.shareWithUserId);
+                result = "Document shared";
+            }
+            // Use db.patch to update the sharedWith field of the document.
+            const document = await ctx.db.patch(args.id, { sharedWith: existingDocument.sharedWith });
         } else {
-            // User ID is not in the array, so add it.
-            existingDocument.sharedWith?.push(args.shareWithUserId);
+            result = "Cannot share with yourself "
         }
-
-        // Use db.patch to update the sharedWith field of the document.
-        const document = await ctx.db.patch(args.id, { sharedWith: existingDocument.sharedWith });
-
-        return document;
-    }
+        return result;
+    },
 })
 
