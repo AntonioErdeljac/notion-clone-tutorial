@@ -20,19 +20,27 @@ const UserProfileCard = ({ user, docId }: CardProps) => {
 
     const onShare = () => {
         setIsSharing(true);
+        const regex = /\|([^|]+)$/; // Matches the substring after the last pipe character
 
-        const promise = shareDocument({
-            id: docId,
-            shareWithUserId: user._id,
-        })
-            .finally(() => setIsSharing(false));
-        promise.then((result) => {
-            toast.promise(promise, {
-                loading: "Sharing...",
-                success: result,
-                error: "Failed",
+        const match = regex.exec(user.tokenIdentifier);
+        console.log(match)
+        if (match && match[1]) {
+            const extractedString = match[1];
+            const promise = shareDocument({
+                id: docId,
+                shareWithUserId: extractedString,
+            })
+                .finally(() => setIsSharing(false));
+            promise.then((result) => {
+                toast.promise(promise, {
+                    loading: "Sharing...",
+                    success: result,
+                    error: "Failed",
+                });
             });
-        });
+        } else {
+            console.log("Substring not found");
+        }
     };
     return (
         <Card className="flex items-center p-1 mt-2 space-x-4 w-full">
@@ -40,7 +48,7 @@ const UserProfileCard = ({ user, docId }: CardProps) => {
             <Avatar className='h-8 w-8 ml-4'>
                 <AvatarImage src={user.picture} />
                 <AvatarFallback>
-                    {user.name[0]}
+                    {user?.name ? user.name[0] : ''}
                 </AvatarFallback>
             </Avatar>
 

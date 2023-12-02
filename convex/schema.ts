@@ -4,7 +4,7 @@ import { v } from "convex/values";
 
 export default defineSchema({
   users: defineTable({
-    name: v.string(),
+    name: v.optional(v.string()),
     email: v.string(),
     tokenIdentifier: v.string(),
     picture: v.optional(v.string()),
@@ -20,7 +20,7 @@ export default defineSchema({
     coverImage: v.optional(v.string()),
     icon: v.optional(v.string()),
     isPublished: v.boolean(),
-    sharedWith: v.optional(v.array(v.string())),
+    sharedWith: v.array(v.string()),
     cursorPositions: v.optional(v.object({})),
   })
     .index("by_user", ["userId"])

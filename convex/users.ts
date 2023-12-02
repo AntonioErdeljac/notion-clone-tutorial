@@ -60,10 +60,6 @@ export const list = query({
         if (!existingDocument) {
             throw new Error("Not found");
         }
-
-        if (existingDocument.userId !== userId) {
-            throw new Error("Unauthorized");
-        }
         const Users = await ctx.db
             .query("users")
             .collect();
@@ -75,7 +71,7 @@ export const list = query({
 export const shareDocument = mutation({
     args: {
         id: v.id("documents"),
-        shareWithUserId: v.id("users")
+        shareWithUserId: v.string()
     },
     handler: async (ctx, args) => {
         const identity = await ctx.auth.getUserIdentity();

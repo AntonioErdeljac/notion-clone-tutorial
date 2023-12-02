@@ -263,8 +263,8 @@ export const getById = query({
     }
 
     const userId = identity.subject;
-
-    if (document.userId !== userId) {
+    // console.log(document.userId, document.sharedWith, userId)
+    if (document.userId !== userId && !document.sharedWith.includes(userId)) {
       throw new Error("Unauthorized");
     }
 
@@ -283,7 +283,7 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-
+    // console.log(args)
     if (!identity) {
       throw new Error("Unauthenticated");
     }
@@ -298,7 +298,7 @@ export const update = mutation({
       throw new Error("Not found");
     }
 
-    if (existingDocument.userId !== userId) {
+    if (existingDocument.userId !== userId && !existingDocument.sharedWith.includes(userId)) {
       throw new Error("Unauthorized");
     }
 
@@ -327,7 +327,7 @@ export const removeIcon = mutation({
       throw new Error("Not found");
     }
 
-    if (existingDocument.userId !== userId) {
+    if (existingDocument.userId !== userId && !existingDocument.sharedWith.includes(userId)) {
       throw new Error("Unauthorized");
     }
 
@@ -356,7 +356,7 @@ export const removeCoverImage = mutation({
       throw new Error("Not found");
     }
 
-    if (existingDocument.userId !== userId) {
+    if (existingDocument.userId !== userId && !existingDocument.sharedWith.includes(userId)) {
       throw new Error("Unauthorized");
     }
 
