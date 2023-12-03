@@ -147,3 +147,25 @@ export const getSharedSidebar = query({
         return relevantDocuments;
     },
 });
+
+export const getUserByClerkId = query({
+    args: {
+        clerkId: v.string()
+    },
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+        const fullId = `https://liked-hagfish-56.clerk.accounts.dev|${args.clerkId}`;
+        if (!identity) {
+            throw new Error("Not authenticated");
+        }
+        console.log(fullId)
+        const user = await ctx.db
+            .query("users")
+            .filter(
+                q =>
+                    q.eq(q.field("tokenIdentifier"), fullId)
+            )
+            .unique()
+        return user;
+    },
+});

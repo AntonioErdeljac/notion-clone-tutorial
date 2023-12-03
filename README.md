@@ -94,6 +94,7 @@ npm run dev
 - changed update and getById functions to allow sharedWith users to also get and update the documents
 - Created the getSharedSidebar function to give the list of documents that are shared with the logged in user. 
 - Created the shared-document-list.tsx which is almost exactly as document-list.tsx but gets documents from
-- Realtime update of title is working
+- Realtime update of title, icon and banner are working
 - Realtime update of content is not working due to limitation of convex and blocknotes
 - Improved the users.list function to not return the owner and user withwhich the document is already shared
+- Created Facepile components of shared with users
