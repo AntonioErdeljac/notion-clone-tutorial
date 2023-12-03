@@ -114,3 +114,24 @@ export const shareDocument = mutation({
     },
 })
 
+export const getSharedSidebar = query({
+    args: {
+        parentDocument: v.optional(v.id("documents"))
+    },
+    handler: async (ctx, args) => {
+        const identity = await ctx.auth.getUserIdentity();
+
+        if (!identity) {
+            throw new Error("Not authenticated");
+        }
+
+        const userId = identity.subject;
+
+        const documents = await ctx.db
+            .query("documents")
+            .collect();
+        const relevantDocuments = documents.filter(doc => doc.sharedWith.includes(userId) && doc.userId !== userId);
+        console.log(relevantDocuments)
+        return relevantDocuments;
+    },
+});

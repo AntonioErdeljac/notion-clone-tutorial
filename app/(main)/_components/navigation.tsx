@@ -31,6 +31,8 @@ import { Item } from "./item";
 import { DocumentList } from "./document-list";
 import { TrashBox } from "./trash-box";
 import { Navbar } from "./navbar";
+import { Separator } from "@/components/ui/separator";
+import { SharedDocumentList } from "./shared-document-list";
 
 export const Navigation = () => {
   const router = useRouter();
@@ -172,13 +174,21 @@ export const Navigation = () => {
             icon={PlusCircle}
           />
         </div>
-        <div className="mt-4">
+        <Separator className="m-3" />
+        <div className="">
+          <h2 className="group min-h-[27px] text-sm py-1 px-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium bg-primary/5 ">My Documents</h2>
           <DocumentList />
           <Item
             onClick={handleCreate}
             icon={Plus}
             label="Add a page"
           />
+        </div>
+        <Separator className="" />
+        <div className="mt-4">
+          <h2 className="group min-h-[27px] text-sm py-1 px-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium bg-primary/5 ">Shared with me</h2>
+          <SharedDocumentList />
+
           <Popover>
             <PopoverTrigger className="w-full mt-4">
               <Item label="Trash" icon={Trash} />

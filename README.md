@@ -74,7 +74,7 @@ npm run dev
 
 ## Document Collaboration
 - Added sharedWith and cursorPositions in schema
-- Created sharedWith function in convex documents.ts
+- Created shareDocument function in convex documents.ts
 - Created share button with tabs for share and publish tabs in a new file share.tsx in components directory
 - Publish functionality intact
 - Corrected the implementation of clerk auth with convex.dev as it was not as per the implementation recommended by convex
@@ -90,3 +90,9 @@ npm run dev
 - UserProfileCard Component created that displays profile image, name and email and a button to share
 - Share unshare functionality added in one function
 - searching in the input field renders list of matching users in PopoverContent area in the area below.
+- Completed the sharedDocument function and moved it to user.ts
+- changed update and getById functions to allow sharedWith users to also get and update the documents
+- Created the getSharedSidebar function to give the list of documents that are shared with the logged in user. 
+- Created the shared-document-list.tsx which is almost exactly as document-list.tsx but gets documents from
+- Realtime update of title is working
+- Realtime update of content is not working due to limitation of convex and blocknotes
