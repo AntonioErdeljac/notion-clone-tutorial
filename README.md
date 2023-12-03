@@ -98,3 +98,4 @@ npm run dev
 - Realtime update of content is not working due to limitation of convex and blocknotes
 - Improved the users.list function to not return the owner and user withwhich the document is already shared
 - Created Facepile components of shared with users
+- Popover created on + remaining users to display list of all users with which the document is shared with.

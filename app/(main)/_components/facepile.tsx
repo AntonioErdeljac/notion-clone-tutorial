@@ -1,13 +1,18 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import UserProfileCard from "@/components/userProfileCard"
 import { api } from "@/convex/_generated/api"
+import { Id } from "@/convex/_generated/dataModel"
 import { useQuery } from "convex/react"
 import Image from "next/image"
 
 interface FacepileProps {
-    sharedWith: string[]
+    sharedWith: string[],
+    docId: Id<"documents">
 }
 
-export const Facepile = ({ sharedWith }: FacepileProps) => {
+export const Facepile = ({ sharedWith, docId }: FacepileProps) => {
     // console.log(sharedWith)
     const MAX_DISPLAY_USERS = 2;
 
@@ -37,9 +42,37 @@ export const Facepile = ({ sharedWith }: FacepileProps) => {
             </div>
             {remainingUsers.length > 0 && (
                 <div className="flex items-center justify-center">
-                    <span className="text-sm text-muted-foreground">
-                        +{remainingUsers.length} users
-                    </span>
+                    <Popover>
+                        <PopoverTrigger>
+                            <Button size="sm" variant="ghost">
+                                +{remainingUsers.length} users
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                            className="w-80"
+                            align="end"
+                            alignOffset={8}
+                            forceMount
+                        >
+                            <div className="flex flex-col items-center mt-4">
+                                <h2 className="text-sm px-3 w-full text-muted-foreground font-medium ">Shared with</h2>
+                                {sharedWith.map((user) => {
+                                    const userData = useQuery(api.users.getUserByClerkId, {
+                                        clerkId: user
+                                    })
+                                    return (
+                                        <>
+                                            {
+                                                userData && (
+                                                    <UserProfileCard user={userData} docId={docId} />
+                                                )
+                                            }
+                                        </>
+                                    )
+                                })}
+                            </div>
+                        </PopoverContent>
+                    </Popover>
                 </div>
             )}
         </div>
