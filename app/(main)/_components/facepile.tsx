@@ -26,7 +26,6 @@ export const Facepile = ({ sharedWith, docId }: FacepileProps) => {
                     const userData = useQuery(api.users.getUserByClerkId, {
                         clerkId: user
                     })
-                    console.log(userData)
                     return (
                         <Popover>
                             <PopoverTrigger>
