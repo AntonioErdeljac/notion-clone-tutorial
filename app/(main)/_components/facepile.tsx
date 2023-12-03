@@ -4,6 +4,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import UserProfileCard from "@/components/userProfileCard"
 import { api } from "@/convex/_generated/api"
 import { Id } from "@/convex/_generated/dataModel"
+import useSharedWithDetails from "@/hooks/get-user-detail"
 import { useQuery } from "convex/react"
 import Image from "next/image"
 
@@ -15,37 +16,36 @@ interface FacepileProps {
 export const Facepile = ({ sharedWith, docId }: FacepileProps) => {
     // console.log(sharedWith)
     const MAX_DISPLAY_USERS = 2;
+    const sharedWithDetails = useSharedWithDetails(sharedWith);
 
-    const displayUsers = sharedWith.slice(0, MAX_DISPLAY_USERS);
-    const remainingUsers = sharedWith.slice(MAX_DISPLAY_USERS);
+    const displayUsers = sharedWithDetails.slice(0, MAX_DISPLAY_USERS);
+    const remainingUsers = sharedWithDetails.slice(MAX_DISPLAY_USERS);
 
     return (
         <div className="flex">
             <div className="flex -space-x-6">
                 {displayUsers.length > 0 && displayUsers.map((user) => {
-                    const userData = useQuery(api.users.getUserByClerkId, {
-                        clerkId: user
-                    })
-                    return (
-                        <Popover>
-                            <PopoverTrigger>
-                                <Avatar
-                                    key={user}
-                                    className='inline-block w-10 h-10 rounded-full border-4 border-white-500 transition duration-300 hover:-translate-y-2'
-                                >
-                                    <AvatarImage src={userData?.picture ? userData.picture : "/Slide1.png"} />
-                                    <AvatarFallback>
-                                        {userData?.name ? userData.name[0] : ''}
-                                    </AvatarFallback>
-                                </Avatar>
-                            </PopoverTrigger>
-                            <PopoverContent>
-                                {
-                                    userData && <UserProfileCard user={userData} docId={docId} />
-                                }
-                            </PopoverContent>
-                        </Popover>
-                    )
+                    if (user) {
+                        return (
+                            <Popover key={user.tokenIdentifier}>
+                                <PopoverTrigger>
+                                    <Avatar
+                                        className='inline-block w-10 h-10 rounded-full border-4 border-white-500 transition duration-300 hover:-translate-y-2'
+                                    >
+                                        <AvatarImage src={user?.picture ? user.picture : "/Slide1.png"} />
+                                        <AvatarFallback>
+                                            {user?.name ? user.name[0] : ''}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                </PopoverTrigger>
+                                <PopoverContent>
+                                    {
+                                        user && <UserProfileCard user={user} docId={docId} />
+                                    }
+                                </PopoverContent>
+                            </Popover>
+                        )
+                    }
                 })}
             </div>
             {remainingUsers.length > 0 && (
@@ -64,10 +64,7 @@ export const Facepile = ({ sharedWith, docId }: FacepileProps) => {
                         >
                             <div className="flex flex-col items-center mt-4">
                                 <h2 className="text-sm px-3 w-full text-muted-foreground font-medium ">Shared with</h2>
-                                {sharedWith.map((user) => {
-                                    const userData = useQuery(api.users.getUserByClerkId, {
-                                        clerkId: user
-                                    })
+                                {sharedWithDetails.map((userData) => {
                                     return (
                                         <>
                                             {

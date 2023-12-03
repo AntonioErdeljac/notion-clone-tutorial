@@ -114,9 +114,6 @@ export const Share = ({
                                 className="flex-grow mr-4"
                                 onChange={onChange}
                                 value={email}
-                                onBlur={() => {
-                                    setEmail("")
-                                }}
                             // className="h-7 px-2 focus-visible:ring-transparent"
 
                             />
