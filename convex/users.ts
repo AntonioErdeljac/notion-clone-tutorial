@@ -71,7 +71,7 @@ export const list = query({
             if (match) {
                 const clerkId = match[1];
                 return user.email.includes(args.email) && !existingDocument.sharedWith.includes(clerkId) &&
-                    user.tokenIdentifier !== identity.tokenIdentifier;
+                    user.tokenIdentifier !== identity.tokenIdentifier && existingDocument.userId !== clerkId;
             }
             return false;
         });

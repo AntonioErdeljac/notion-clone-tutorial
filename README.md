@@ -96,4 +96,4 @@ npm run dev
 - Created the shared-document-list.tsx which is almost exactly as document-list.tsx but gets documents from
 - Realtime update of title is working
 - Realtime update of content is not working due to limitation of convex and blocknotes
-- Improved the user.list function to not return the owner and user withwhich the document is already shared
+- Improved the users.list function to not return the owner and user withwhich the document is already shared
