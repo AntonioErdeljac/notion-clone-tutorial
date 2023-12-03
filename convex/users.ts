@@ -63,7 +63,19 @@ export const list = query({
         const Users = await ctx.db
             .query("users")
             .collect();
-        const filteredUsers = Users.filter(user => user.email.includes(args.email));
+
+        const regex = /\|([^|]+)$/;
+
+        const filteredUsers = Users.filter(user => {
+            const match = regex.exec(user.tokenIdentifier);
+            if (match) {
+                const clerkId = match[1];
+                return user.email.includes(args.email) && !existingDocument.sharedWith.includes(clerkId) &&
+                    user.tokenIdentifier !== identity.tokenIdentifier;
+            }
+            return false;
+        });
+
         return filteredUsers;
     },
 });
