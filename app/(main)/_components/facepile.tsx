@@ -28,15 +28,24 @@ export const Facepile = ({ sharedWith, docId }: FacepileProps) => {
                     })
                     console.log(userData)
                     return (
-                        <Avatar
-                            key={user}
-                            className='inline-block w-10 h-10 rounded-full border-4 border-white-500 transition duration-300 hover:-translate-y-2'
-                        >
-                            <AvatarImage src={userData?.picture ? userData.picture : "/Slide1.png"} />
-                            <AvatarFallback>
-                                {userData?.name ? userData.name[0] : ''}
-                            </AvatarFallback>
-                        </Avatar>
+                        <Popover>
+                            <PopoverTrigger>
+                                <Avatar
+                                    key={user}
+                                    className='inline-block w-10 h-10 rounded-full border-4 border-white-500 transition duration-300 hover:-translate-y-2'
+                                >
+                                    <AvatarImage src={userData?.picture ? userData.picture : "/Slide1.png"} />
+                                    <AvatarFallback>
+                                        {userData?.name ? userData.name[0] : ''}
+                                    </AvatarFallback>
+                                </Avatar>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                                {
+                                    userData && <UserProfileCard user={userData} docId={docId} />
+                                }
+                            </PopoverContent>
+                        </Popover>
                     )
                 })}
             </div>

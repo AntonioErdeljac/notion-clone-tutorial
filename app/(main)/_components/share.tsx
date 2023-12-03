@@ -32,10 +32,9 @@ export const Share = ({
     const update = useMutation(api.documents.update);
     const [copied, setCopied] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [email, setEmail] = useState("")
-    const [sharedUsers, setSharedUsers] = useState<User[]>([])
+    const [shareUsers, setShareUsers] = useState<User[]>([])
     const url = `${origin}/preview/${initialData._id}`;
-    const [isSharing, setIsSharing] = useState(false);
+    const [email, setEmail] = useState("")
     const users = useQuery(api.users.list, { email, id: initialData._id }) ?? [];
 
     const onChange = (
@@ -43,9 +42,9 @@ export const Share = ({
     ) => {
         setEmail(event.target.value);
         if (users.length > 0) {
-            setSharedUsers(users)
+            setShareUsers(users)
         } else {
-            setSharedUsers([])
+            setShareUsers([])
         }
     };
 
@@ -95,11 +94,6 @@ export const Share = ({
             <PopoverTrigger asChild>
                 <Button size="sm" variant="ghost">
                     Share
-                    {initialData.isPublished && (
-                        <Globe
-                            className="text-sky-500 w-4 h-4 ml-2"
-                        />
-                    )}
                 </Button>
             </PopoverTrigger>
             <PopoverContent
@@ -125,7 +119,7 @@ export const Share = ({
                             />
                         </div>
                         <div className="flex flex-col items-center mt-4">
-                            {sharedUsers.map((user) => (<>
+                            {users.length > 0 && users.map((user) => (<>
                                 <UserProfileCard user={user} docId={initialData._id} />
                             </>
                             ))}
