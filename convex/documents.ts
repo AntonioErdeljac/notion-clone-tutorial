@@ -262,7 +262,6 @@ export const getById = query({
     }
 
     const userId = identity.subject;
-    // console.log(document.userId, document.sharedWith, userId)
     if (document.userId !== userId && !document.sharedWith.includes(userId)) {
       throw new Error("Unauthorized");
     }
@@ -282,7 +281,6 @@ export const update = mutation({
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-    // console.log(args)
     if (!identity) {
       throw new Error("Unauthenticated");
     }
@@ -304,7 +302,6 @@ export const update = mutation({
     const document = await ctx.db.patch(args.id, {
       ...rest,
     });
-    // console.log(args)
     return document;
   },
 });

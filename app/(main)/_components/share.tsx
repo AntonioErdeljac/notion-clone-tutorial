@@ -114,12 +114,15 @@ export const Share = ({
                                 className="flex-grow mr-4"
                                 onChange={onChange}
                                 value={email}
+                                onBlur={() => {
+                                    setEmail("")
+                                }}
                             // className="h-7 px-2 focus-visible:ring-transparent"
 
                             />
                         </div>
                         <div className="flex flex-col items-center mt-4">
-                            {users.length > 0 && users.map((user) => (<>
+                            {email != "" && users.length > 0 && users.map((user) => (<>
                                 <UserProfileCard user={user} docId={initialData._id} />
                             </>
                             ))}

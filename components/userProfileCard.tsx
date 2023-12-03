@@ -23,7 +23,6 @@ const UserProfileCard = ({ user, docId }: CardProps) => {
         const regex = /\|([^|]+)$/; // Matches the substring after the last pipe character
 
         const match = regex.exec(user.tokenIdentifier);
-        console.log(match)
         if (match && match[1]) {
             const extractedString = match[1];
             const promise = shareDocument({
@@ -38,8 +37,6 @@ const UserProfileCard = ({ user, docId }: CardProps) => {
                     error: "Failed",
                 });
             });
-        } else {
-            console.log("Substring not found");
         }
     };
     return (

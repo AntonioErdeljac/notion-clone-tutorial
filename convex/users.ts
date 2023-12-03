@@ -17,7 +17,6 @@ export const store = mutation({
     args: {},
     handler: async (ctx) => {
         const identity = await ctx.auth.getUserIdentity();
-        console.log(identity)
         if (!identity) {
             throw new Error("Called storeUser without authentication present");
         }
@@ -107,7 +106,6 @@ export const shareDocument = mutation({
 
         if (userId != args.shareWithUserId) {
             const index = existingDocument.sharedWith?.indexOf(args.shareWithUserId);
-            console.log(typeof (index))
             if (typeof index !== 'undefined' && index > -1) {
                 // User ID is in the array, so remove it.
                 existingDocument.sharedWith?.splice(index, 1);
@@ -143,7 +141,6 @@ export const getSharedSidebar = query({
             .query("documents")
             .collect();
         const relevantDocuments = documents.filter(doc => doc.sharedWith.includes(userId) && doc.userId !== userId);
-        console.log(relevantDocuments)
         return relevantDocuments;
     },
 });
@@ -158,7 +155,6 @@ export const getUserByClerkId = query({
         if (!identity) {
             throw new Error("Not authenticated");
         }
-        console.log(fullId)
         const user = await ctx.db
             .query("users")
             .filter(

@@ -63,7 +63,7 @@ export const Navbar = ({
               <Facepile sharedWith={document.sharedWith} docId={document._id} />
             }
             <Share initialData={document} />
-            <Publish initialData={document} />
+            {/* <Publish initialData={document} /> */}
             <Menu documentId={document._id} />
           </div>
         </div>
