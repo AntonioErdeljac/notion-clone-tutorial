@@ -1,7 +1,7 @@
 export default {
   providers: [
     {
-      domain: "https://actual-glider-21.clerk.accounts.dev",
+      domain: process.env.CONVEX_AUTHENTICATION_DOMAIN,
       applicationID: "convex",
     }
   ]
